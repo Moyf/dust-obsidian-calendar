@@ -119,7 +119,7 @@ export default class TemplateController {
     public notify(templateController: TemplateController, templateFile: TAbstractFile) {
         // 循环等待新创建的文件可被编辑，再插入模板
         if (templateController.plugin.app.workspace.activeEditor !== null) {
-            templateController.insertTemplateImpl(templateFile);
+            setTimeout(() => templateController.insertTemplateImpl(templateFile), 100);
         }
         else {
             setTimeout(() => templateController.notify(templateController, templateFile), 100);
