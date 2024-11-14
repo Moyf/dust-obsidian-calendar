@@ -117,7 +117,11 @@ export default class DustCalendarPlugin extends Plugin {
         }
         else {
             leaf = workspace.getRightLeaf(false);
-            await leaf.setViewState({type: VIEW_TYPE_CALENDAR, active: true});
+            if (leaf) {
+                await leaf.setViewState({type: VIEW_TYPE_CALENDAR, active: true});
+            } else {
+                throw new Error("无法获取右侧视图叶子");
+            }
         }
 
         // 显示视图

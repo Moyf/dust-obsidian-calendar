@@ -211,12 +211,15 @@ export default class NoteController {
         this.plugin.noteStatisticController.addTaskByFile(abstractFile);
     }
 
-    private openNoteTabView(tFile: TFile): void {
-        // 寻找已打开的标签页
+    private async openNoteTabView(tFile: TFile): Promise<void> {
+        const app = this.plugin.app;
         let targetView: MarkdownView | null = null;
-        app.workspace.iterateRootLeaves(leaf => {
+        app.workspace.iterateRootLeaves(async leaf => {
             if (leaf.getViewState().type === "markdown" && leaf.getDisplayText() === tFile.basename) {
+                await leaf.loadIfDeferred(); // Ensure view is fully loaded
+
                 let view = leaf.view as MarkdownView;
+                
                 if (view.file !== null && view.file.path === tFile.path && targetView === null) {
                     targetView = view;
                 }
@@ -224,6 +227,7 @@ export default class NoteController {
         });
 
         if (targetView === null) {
+            const app = this.plugin.app;
             targetView = new MarkdownView(app.workspace.getLeaf("tab"));
             const targetLeaf: WorkspaceLeaf = targetView.leaf;
             targetLeaf.openFile(tFile).then(() => {
