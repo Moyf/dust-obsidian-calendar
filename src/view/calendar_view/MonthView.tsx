@@ -128,6 +128,7 @@ function DayItem({
         // 如果发生连击，只有第一次点击才会切换选中对象，并且能够避免干扰双击事件
         if (e.detail === 1) {
             dispatch(updateSelectedItem(newSelectItem));
+            plugin.noteController.openNoteBySelectedItem(newSelectItem)
         }
     }
 
@@ -139,7 +140,8 @@ function DayItem({
     }
 
     return <div className={bodyStyle} onClick={onClickCallback}
-                onDoubleClick={() => plugin.noteController.openNoteBySelectedItem(selectedItem)}>
+                onDoubleClick={() => plugin.noteController.openNoteBySelectedItem(selectedItem)}
+                style={{cursor: 'pointer'}}>
         <DayItemBody targetDay={targetDay} dayListOfMonthView={dayListOfMonthView} isSelected={isSelected}/>
         {
             plugin.calendarViewController.getShouldDisplayLunarInfo()
@@ -165,15 +167,17 @@ function WeekIndexItem({targetDay}: { targetDay: DateTime }) {
         // 如果发生连击，只有第一次点击才会切换选中对象，并且能够避免干扰双击事件
         if (e.detail === 1) {
             dispatch(updateSelectedItem(newSelectItem));
+            plugin.noteController.openNoteBySelectedItem(newSelectItem);
         }
     }
 
     let itemStyle = "month-view-week-index-item d-unselected-item";
     if (selectedItem.type === SelectedItemType.WEEK_INDEX_ITEM && selectedItem.date.weekNumber === targetDay.weekNumber) {
-        itemStyle = "month-view-week-index-item d-selected-item";
+        itemStyle = "month-view-week-index-item d-selected-item cursor-pointer";
     }
 
-    return <div className={itemStyle} onClick={onClickCallback}
+    
+    return <div className={itemStyle} onClick={onClickCallback} style={{cursor: 'pointer'}}
                 onDoubleClick={() => plugin.noteController.openNoteBySelectedItem(newSelectItem)}>
         <div>{targetDay.weekNumber}</div>
         <StatisticLabel date={DateTime.local(targetDay.year, targetDay.month, targetDay.day)}
