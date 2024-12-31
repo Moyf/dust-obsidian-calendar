@@ -35,6 +35,14 @@ export class CalendarViewController {
         return this.plugin.database.setting.shouldDisplayHolidayInfo = shouldDisplayHolidayInfo;
     }
 
+    public getShouldDisplayWordCount(): boolean {
+        return this.plugin.database.setting.shouldDisplayWordCount;
+    }
+
+    public setShouldDisplayWordCount(shouldDisplayWordCount: boolean): void {
+        this.plugin.database.setting.shouldDisplayWordCount = shouldDisplayWordCount;
+    }
+
 
     // 立即刷新
     public forceFlush(): void {

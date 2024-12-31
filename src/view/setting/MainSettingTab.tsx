@@ -61,6 +61,7 @@ export default class MainSettingTab extends PluginSettingTab {
         containerEl.empty();
         this.displayShouldDisplayLunarInfoToggle();
         this.displayShouldDisplayHolidayInfo();
+        this.displayShouldDisplayWordCount();
         this.displayFontSizeChangeModeSelect();
         this.displayImmutableFontSizeSlider();
         this.displayQuarterNameModeSelect();
@@ -117,6 +118,24 @@ export default class MainSettingTab extends PluginSettingTab {
         });
     }
 
+    private displayShouldDisplayWordCount(): void {
+        const {containerEl} = this;
+        let element = new Setting(containerEl);
+        element.setName("是否显示字数统计").setDesc("关闭后不再显示字数统计相关的选项和功能。");
+        element.addToggle(toggle => {
+            toggle.setValue(this.plugin.database.setting.shouldDisplayWordCount);
+            toggle.onChange(async (value) => {
+                this.plugin.database.setting.shouldDisplayWordCount = value;
+                // 重新加载设置页面以显示或隐藏相关选项
+                this.display();
+                // 如果开启了字数统计，强制刷新一次以显示统计结果
+                if (value) {
+                    this.plugin.calendarViewController.forceFlush();
+                }
+            });
+        });
+    }
+
     private displayImmutableFontSizeSlider(): void {
 
         if (this.plugin.database.setting.fontSizeChangeMode !== FontSizeChangeMode.IMMUTABLE) {
@@ -141,6 +160,10 @@ export default class MainSettingTab extends PluginSettingTab {
     }
 
     private displayWordsPerDotInput(): void {
+        if (!this.plugin.database.setting.shouldDisplayWordCount) {
+            return;
+        }
+
         const {containerEl} = this;
         let settingComponent = new Setting(containerEl);
         this.wordsPerDotInputRoot = createRoot(settingComponent.settingEl);
@@ -150,6 +173,10 @@ export default class MainSettingTab extends PluginSettingTab {
     }
 
     private displayDotUpperLimitSelect(): void {
+        if (!this.plugin.database.setting.shouldDisplayWordCount) {
+            return;
+        }
+
         const {containerEl} = this;
         let settingComponent = new Setting(containerEl);
         this.dotUpperLimitSelectRoot = createRoot(settingComponent.settingEl);

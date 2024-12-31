@@ -4,6 +4,7 @@ export default class PluginSetting {
 
     shouldDisplayLunarInfo: boolean;                        // 是否显示农历信息
     shouldDisplayHolidayInfo: boolean;                      // 是否显示调休信息
+    shouldDisplayWordCount: boolean;                        // 是否显示字数统计
 
     fontSizeChangeMode: FontSizeChangeMode;                 // 字体大小调整方式
     immutableFontSizeFactor: number;                        // 固定字体的大小
@@ -41,6 +42,7 @@ export default class PluginSetting {
 
         this.shouldDisplayLunarInfo = true;
         this.shouldDisplayHolidayInfo = true;
+        this.shouldDisplayWordCount = false;                // 默认关闭字数统计
 
         this.fontSizeChangeMode = FontSizeChangeMode.IMMUTABLE;
         this.immutableFontSizeFactor = 1;

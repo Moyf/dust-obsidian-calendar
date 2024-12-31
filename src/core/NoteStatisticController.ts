@@ -89,27 +89,34 @@ export default class NoteStatisticController {
 
     // 文件信息统计
     private async executeStaticByFile(file: TAbstractFile | null): Promise<void> {
-        if (file === null) {
+        if (file === null || !(file instanceof TFile)) {
             return;
         }
 
-        if (!(file instanceof TFile)) {
+        const {todoAnnotationMode, shouldDisplayWordCount} = this.plugin.database.setting;
+
+        // 如果字数统计和待办事项都关闭了，就不需要进行任何统计
+        if (!shouldDisplayWordCount && todoAnnotationMode === TodoAnnotationMode.NONE) {
             return;
         }
 
-        const newNoteStatistic = new NoteStatistic();
-
+        let newNoteStatistic = new NoteStatistic();
         const filename = file.path;
         const {vault} = this.plugin.app;
         const content = await vault.cachedRead(file as TFile);
-        const {wordsPerDot, dotUpperLimit, todoAnnotationMode} = this.plugin.database.setting;
 
         // 统计字数
-        const totalWords = NoteStatisticController.countWords(content);
-        newNoteStatistic.totalWords = totalWords;
-        newNoteStatistic.totalDots = Math.ceil((totalWords + 1) / wordsPerDot);
-        if (newNoteStatistic.totalDots >= dotUpperLimit) {
-            newNoteStatistic.totalDots = dotUpperLimit;
+        if (shouldDisplayWordCount) {
+            const {wordsPerDot, dotUpperLimit} = this.plugin.database.setting;
+            const totalWords = NoteStatisticController.countWords(content);
+            newNoteStatistic.totalWords = totalWords;
+            newNoteStatistic.totalDots = Math.ceil((totalWords + 1) / wordsPerDot);
+            if (newNoteStatistic.totalDots >= dotUpperLimit) {
+                newNoteStatistic.totalDots = dotUpperLimit;
+            }
+        } else {
+            newNoteStatistic.totalWords = 0;
+            newNoteStatistic.totalDots = 0;
         }
 
         // 统计待办

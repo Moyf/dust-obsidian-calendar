@@ -45,6 +45,14 @@ export default class ViewController {
         return this.quarterNameMap?.get(quarterIndex)!;
     }
 
+    public getShouldDisplayWordCount(): boolean {
+        return this.plugin.database.setting.shouldDisplayWordCount;
+    }
+
+    public setShouldDisplayWordCount(shouldDisplayWordCount: boolean): void {
+        this.plugin.database.setting.shouldDisplayWordCount = shouldDisplayWordCount;
+    }
+
     private updateQuarterNameMap() {
         let newQuarterNameMap = new Map();
         if (this.plugin.database.setting.quarterNameMode === QuarterNameMode.NUMBER) {
