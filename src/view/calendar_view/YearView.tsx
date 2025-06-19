@@ -28,7 +28,11 @@ function MonthItem({showYear, showMonth}: { showYear: number, showMonth: number 
     return <div className={bodyStyle} onClick={() => dispatch(updateSelectedItem(newSelectItem))}
                 onDoubleClick={() => plugin.noteController.openNoteBySelectedItem(newSelectItem)}>
         <div>{showMonth}月</div>
-        <StatisticLabel date={DateTime.local(showYear, showMonth)} noteType={NoteType.MONTHLY}/>
+        {
+            plugin.database.setting.shouldDisplayWordCount
+                ? <StatisticLabel date={DateTime.local(showYear, showMonth)} noteType={NoteType.MONTHLY}/>
+                : <></>
+        }
     </div>
 }
 
@@ -52,7 +56,11 @@ function QuarterItem({showYear, showQuarter}: { showYear: number, showQuarter: n
     return <div className={bodyStyle} onClick={() => dispatch(updateSelectedItem(newSelectItem))}
                 onDoubleClick={() => plugin.noteController.openNoteBySelectedItem(newSelectItem)}>
         <div>{plugin.viewController.parseQuarterName(showQuarter)}</div>
-        <StatisticLabel date={DateTime.local(showYear, showQuarter * 3 - 2)} noteType={NoteType.QUARTERLY}/>
+        {
+            plugin.database.setting.shouldDisplayWordCount
+                ? <StatisticLabel date={DateTime.local(showYear, showQuarter * 3 - 2)} noteType={NoteType.QUARTERLY}/>
+                : <></>
+        }
     </div>
 }
 

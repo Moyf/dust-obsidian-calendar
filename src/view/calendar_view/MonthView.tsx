@@ -148,8 +148,12 @@ function DayItem({
                 ? <DayItemFooter targetDay={targetDay} dayListOfMonthView={dayListOfMonthView} isSelected={isSelected}/>
                 : <></>
         }
-        <StatisticLabel date={DateTime.local(targetDay.year, targetDay.month, targetDay.day)}
-                        noteType={NoteType.DAILY}/>
+        {
+            plugin.database.setting.shouldDisplayWordCount
+                ? <StatisticLabel date={DateTime.local(targetDay.year, targetDay.month, targetDay.day)}
+                                noteType={NoteType.DAILY}/>
+                : <></>
+        }
     </div>
 }
 
