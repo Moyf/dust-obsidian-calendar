@@ -53,7 +53,11 @@ export class CalendarViewController {
         const leaves = workspace.getLeavesOfType(VIEW_TYPE_CALENDAR);
         if (leaves.length > 0) {
             leaf = leaves[0];
-            (leaf.view as CalendarView).flush();
+
+            // 检查是否存在，避免隐藏的时候报错
+            if (typeof (leaf?.view as CalendarView)?.flush === "function") {
+                (leaf.view as CalendarView).flush();
+            }
         }
     }
 
