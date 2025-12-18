@@ -11,7 +11,7 @@
 	"author": "Nano Dust",
 	"license": "MIT",
 	"devDependencies": {
-		"@reduxjs/toolkit": "^2.2.1",
+		"@reduxjs/toolkit": "^2.11.2",
 		"@sprout2000/esbuild-copy-plugin": "^1.1.14",
 		"@types/node": "^16.11.6",
 		"@types/react": "^18.2.55",
@@ -23,7 +23,7 @@
 		"lucide-react": "^0.356.0",
 		"luxon": "^3.7.2",
 		"obsidian": "latest",
-		"react-redux": "^9.1.0",
+		"react-redux": "^9.2.0",
 		"redux": "^5.0.1",
 		"ts-node": "^10.9.2",
 		"tslib": "2.4.0",
