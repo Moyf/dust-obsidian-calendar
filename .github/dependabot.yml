@@ -15,9 +15,9 @@ updates:
     open-pull-requests-limit: 5
     # 自动合并策略
     assignees:
-      - "Moy" # 替换为您的 GitHub 用户名
+      - "Moy"
     reviewers:
-      - "Moy" # 替换为您的 GitHub 用户名
+      - "Moy"
     # 提交信息前缀
     commit-message:
       prefix: "deps"
@@ -64,7 +64,7 @@ updates:
           - "luxon"
           - "@types/luxon"
 
-  # GitHub Actions 依赖更新 (如果您使用 GitHub Actions)
+  # GitHub Actions 依赖更新
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -74,9 +74,9 @@ updates:
       timezone: "Asia/Shanghai"
     open-pull-requests-limit: 3
     assignees:
-      - "Moy" # 替换为您的 GitHub 用户名
+      - "Moy"
     reviewers:
-      - "Moy" # 替换为您的 GitHub 用户名
+      - "Moy"
     commit-message:
       prefix: "ci"
       include: "scope"
