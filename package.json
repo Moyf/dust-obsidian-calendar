@@ -20,7 +20,7 @@
 		"@typescript-eslint/parser": "8.50.0",
 		"builtin-modules": "3.3.0",
 		"esbuild": "0.27.2",
-		"lucide-react": "^0.356.0",
+		"lucide-react": "^0.562.0",
 		"luxon": "^3.7.2",
 		"obsidian": "latest",
 		"react-redux": "^9.2.0",
