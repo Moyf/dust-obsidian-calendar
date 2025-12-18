@@ -28,7 +28,7 @@ jobs:
     - name: Create release package
       run: |
         mkdir release-files
-        cp main.js manifest.json styles.css release-files/
+        cp dist/main.js manifest.json dist/styles.css release-files/
         cd release-files
         zip -r ../obsidian-dust-calendar-${{ github.ref_name }}.zip .
     
@@ -37,9 +37,9 @@ jobs:
       with:
         files: |
           obsidian-dust-calendar-${{ github.ref_name }}.zip
-          main.js
+          dist/main.js
           manifest.json
-          styles.css
+          dist/styles.css
         draft: false
         prerelease: false
         generate_release_notes: true
