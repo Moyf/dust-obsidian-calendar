@@ -7,12 +7,12 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
       day: "monday"
       time: "09:00"
       timezone: "Asia/Shanghai"
-    # 最多创建 5 个 PR
-    open-pull-requests-limit: 5
+    # 最多创建 2 个 PR
+    open-pull-requests-limit: 2
     # 自动合并策略
     assignees:
       - "Moy"
@@ -34,35 +34,50 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "react-dom"
         update-types: ["version-update:semver-major"]
+      # 忽略开发工具的小版本更新
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+      - dependency-name: "builtin-modules"
+        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+      - dependency-name: "ts-node"
+        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
+      - dependency-name: "tslib"
+        update-types: ["version-update:semver-minor", "version-update:semver-patch"]
     # 允许的更新类型
     allow:
       - dependency-type: "direct"
-      - dependency-type: "indirect"
-    # 分组相关依赖的更新
+    # 分组相关依赖的更新 - 减少 PR 数量
     groups:
-      react:
+      # 主要功能依赖 - 优先级高
+      core-deps:
         patterns:
           - "react*"
           - "@types/react*"
-      typescript:
+          - "redux*"
+          - "@reduxjs/*"
+          - "react-redux"
+          - "lunar-typescript"
+          - "luxon"
+          - "@types/luxon"
+        update-types:
+          - "minor"
+          - "patch"
+      # 开发和构建工具 - 优先级低，合并更新
+      dev-tools:
         patterns:
           - "typescript"
           - "@types/*"
           - "@typescript-eslint/*"
-      build-tools:
-        patterns:
           - "esbuild*"
           - "@sprout2000/*"
-      redux:
-        patterns:
-          - "redux*"
-          - "@reduxjs/*"
-          - "react-redux"
-      calendar-libs:
-        patterns:
-          - "lunar-typescript"
-          - "luxon"
-          - "@types/luxon"
+          - "builtin-modules"
+          - "ts-node"
+          - "tslib"
+          - "lucide-react"
+          - "process"
+        update-types:
+          - "minor"
+          - "patch"
 
   # GitHub Actions 依赖更新
   - package-ecosystem: "github-actions"
@@ -72,7 +87,7 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Asia/Shanghai"
-    open-pull-requests-limit: 3
+    open-pull-requests-limit: 1
     assignees:
       - "Moy"
     reviewers:
