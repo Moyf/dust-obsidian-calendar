@@ -1,0 +1,82 @@
+# Dependabot 配置文件
+# 文档: https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # npm 包依赖更新
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    # 最多创建 5 个 PR
+    open-pull-requests-limit: 5
+    # 自动合并策略
+    assignees:
+      - "Moy" # 替换为您的 GitHub 用户名
+    reviewers:
+      - "Moy" # 替换为您的 GitHub 用户名
+    # 提交信息前缀
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    # 忽略某些包的更新 (如果需要的话)
+    ignore:
+      # 忽略主要版本更新 (避免破坏性更改)
+      - dependency-name: "obsidian"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+    # 允许的更新类型
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    # 分组相关依赖的更新
+    groups:
+      react:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+          - "@typescript-eslint/*"
+      build-tools:
+        patterns:
+          - "esbuild*"
+          - "@sprout2000/*"
+      redux:
+        patterns:
+          - "redux*"
+          - "@reduxjs/*"
+          - "react-redux"
+      calendar-libs:
+        patterns:
+          - "lunar-typescript"
+          - "luxon"
+          - "@types/luxon"
+
+  # GitHub Actions 依赖更新 (如果您使用 GitHub Actions)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 3
+    assignees:
+      - "Moy" # 替换为您的 GitHub 用户名
+    reviewers:
+      - "Moy" # 替换为您的 GitHub 用户名
+    commit-message:
+      prefix: "ci"
+      include: "scope"
